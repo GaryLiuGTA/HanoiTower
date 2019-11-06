@@ -2,7 +2,8 @@ class Hanoi():
     def __init__(self, layers):
         self.__stacks = [[l+1 for l in reversed(range(layers))], [], []]
         self.__layers = layers
-        self.__steps = 0
+        # self.__steps = 0
+        assert (layers <= 10), f'Move {layers} plates need {2**layers -1} steps, which will consume huge amount resources to visualize, please choose a smaller number.'
     
     def __printTowers(self):
         maxLen = max([max(s) for s in self.__stacks if len(s) > 0])
@@ -14,18 +15,18 @@ class Hanoi():
         if n == 1:
             self.__stacks[targetStack].append(self.__stacks[srcStack].pop())
             self.__printTowers()
-            self.__steps += 1
+            # self.__steps += 1
         else:
             self.__moveStack(n-1, srcStack, transitStack, targetStack)
             self.__stacks[targetStack].append(self.__stacks[srcStack].pop())
             self.__printTowers()
-            self.__steps += 1
+            # self.__steps += 1
             self.__moveStack(n-1, transitStack, targetStack, srcStack)
             
     def solve(self):
         self.__printTowers()
         self.__moveStack(self.__layers, 0, 2, 1)
-        print(f'Totally moved {self.__steps} steps')
+        print(f'Totally moved {2**self.__layers - 1} steps')
 
 Hanoi(6).solve()
 
